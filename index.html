@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>video</title>
+	<link rel="stylesheet" href="lib/bootstrap.min.css" />
+</head>
+<body>
+
+<div class="container-fluid">
+	<h1>视频工具</h1>
+	<div class="form-group">
+		<label for="interval">间隙时间</label>
+		<input class="form-control" id="interval" name="interval" type="number" value="30" min="10" />
+		<p class="help-block">值越小，速度越快，最小值为10</p>
+	</div>
+	<button id="startBtn" class="btn btn-primary">开始</button>
+	<button id="stopBtn" class="btn">暂停</button>
+
+	<hr>
+	<h3>记录</h3>
+	<h4>
+		<span>已完成：</span>
+		<span id="time">0</span>
+		<span>次</span>
+	</h4>
+
+	<hr>
+	<h3>日志</h3>
+
+	<ul id="log">
+	</ul>
+
+</div>
+
+<script type="text/javascript" src="lib/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="pinApiList.js"></script>
+</body>
+</html>
