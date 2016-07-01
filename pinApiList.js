@@ -1,12 +1,11 @@
-var http = require('http');
-var list = require('./apiList.js');
+var fork = require('child_process').fork;
 
-http.globalAgent.maxSockets = 1000;
+var processList = [];
 var count = 0;
-var circle = null;
 
 $(document).ready(function(){
 	$("#startBtn").click(function(){
+		stopPin();
 		startPin();
 	});
 	$("#stopBtn").click(function(){
@@ -15,37 +14,42 @@ $(document).ready(function(){
 });
 
 function startPin() {
-	var interval = $("#interval").val();
-	if(interval < 10) {
-		interval = 10;
+	
+	var interval = parseInt($("#interval").val());
+	if(interval < 50) {
+		interval = 50;
+		$("#interval").val(50)
+	}
+	
+	var process = parseInt($('#process').val());
+	if(process > 10) {
+		process = 10;
+		$("#process").val(10)
 	}
 
-	circle = setInterval(function(){
-
-		var listCount = list.length;
-		var url = list[count % listCount].replace(/\{#r\}/g, getRandom(100000));
-		log(url);
-
-		http.get(url, function(res){
-			log("Got response: " + res.statusCode);
-		}).on('error', function(e) {
-			log('problem with request: ' + e.message);
+	for(var i = 0; i < process; i ++) {
+		var worker = fork('./ping.js');
+		
+		worker.on('message', function(m){
+			count ++;
+			$("#time").text(count);
 		});
-
-		count ++;
-
-		$("#time").text(Math.ceil(count / listCount));
-
-	}, interval);
+		
+		worker.send({'type':'start','interval': interval});
+		
+		processList.push(worker);
+	}
 }
 
 function stopPin() {
-	clearInterval(circle);
+	for(var i = 0; i < processList.length; i ++) {
+		processList[i].send({'type':'stop'});
+		processList[i].kill();
+	}
+	processList = [];
 }
 
-function getRandom(max) {
-	return Math.floor(Math.random() * max);
-}
+
 
 function log(text) {
 	$("#log").prepend("<li>" + text + "</li>");

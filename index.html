@@ -11,8 +11,13 @@
 	<h1>视频工具</h1>
 	<div class="form-group">
 		<label for="interval">间隙时间</label>
-		<input class="form-control" id="interval" name="interval" type="number" value="30" min="10" />
-		<p class="help-block">值越小，速度越快，最小值为10</p>
+		<input class="form-control" id="interval" name="interval" type="number" value="50" min="50" />
+		<p class="help-block">值越小，速度越快，最小值为50</p>
+	</div>
+	<div class="form-group">
+		<label for="process">进程数量</label>
+		<input class="form-control" id="process" name="process" type="number" value="1" max="10" />
+		<p class="help-block">进程多开的数量，最大为10</p>
 	</div>
 	<button id="startBtn" class="btn btn-primary">开始</button>
 	<button id="stopBtn" class="btn">暂停</button>
@@ -25,11 +30,11 @@
 		<span>次</span>
 	</h4>
 
-	<hr>
-	<h3>日志</h3>
+	<!--<hr>-->
+	<!--<h3>日志</h3>-->
 
-	<ul id="log">
-	</ul>
+	<!--<ul id="log">-->
+	<!--</ul>-->
 
 </div>
 
